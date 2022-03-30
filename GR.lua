@@ -1,293 +1,223 @@
-function LoadReanimation(Type,Velocity,Anims,FlingNow,LoadLib)
-  if game.Players.LocalPlayer["Character"]:FindFirstChild("Raw") then
-    game:GetService("StarterGui"):SetCore("SendNotification",
-    {
-       Title = "Gelatek Reanimation",
-       Text = "Couldn't Reanimate! (Already Running!)"
-    })
-    return
- end
-  local Reanimate = Type or "Raw"
-  local NetlessValue = Velocity or Vector3.new(28.5,0,-1)
-  local IsAnimating = Anims or false
-  local FlingForBullet = FlingNow or false
-  local LoadLibNow = LoadLib or false
-  _G.IHaveYourIP = false
-  if Reanimate == "Death" then
-    game.Players.LocalPlayer["Character"]:FindFirstChildOfClass("Humanoid").BreakJointsOnDeath = false
-    spawn(function()
-       game.Players.LocalPlayer["Character"] = nil
-       game.Players.LocalPlayer["Character"] = workspace[game.Players.LocalPlayer.Name]
-    end)
-    wait(game.Players.RespawnTime + 0.7)
-    game.Players.LocalPlayer["Character"]:FindFirstChildOfClass("Humanoid").Health = 0
-    game.Players.LocalPlayer["Character"]:FindFirstChildOfClass("Humanoid").BreakJointsOnDeath = false
-  end
-  --- Startup
-  --[[
-  No Align because too weak + code shit.
-  Reanimate By Gelatek.
-  ]]
-  local Stepped = game:GetService("RunService").Stepped
-  local Heartbeat = game:GetService("RunService").Heartbeat
-  local Main = nil;
-  local Misc = nil;
-  
-  local Character = game.Players.LocalPlayer["Character"]
-  local Torso = Character:FindFirstChild("Torso") or Character:FindFirstChild("UpperTorso")
-  local Humanoid = Character:FindFirstChildOfClass("Humanoid") 
-  Character.Archivable = true
-  Character.Animate.Disabled = true
-  for Index, Child in pairs(Humanoid:GetPlayingAnimationTracks()) do
-    if Child:IsA("NumberValue") then -- All body modifications in R15.
-      Child:Destroy()
-    end
-  end
-  wait(0.05)
-  local Raw = game:GetObjects("rbxassetid://8440552086")[1]
-  Raw.Parent = workspace
-  Raw.Name = "Raw"
-  local RawTorso = Raw:FindFirstChild("Torso")
-  local RawHumanoid = Raw:FindFirstChildOfClass("Humanoid")
-  for Index, Child in pairs(Raw:GetDescendants()) do
-    if Child:IsA("BasePart") or Child:IsA("Decal") then
-       Child.Transparency = 1
-    end
-  end
-  
-  for Index, Child in pairs(Character:GetChildren()) do
-    if Child:IsA("Accessory") then
-       local ClonedAccessories = Child:Clone()
-       ClonedAccessories.Parent = Raw
-       ClonedAccessories.Handle.Transparency = 1
-       Child.Handle:BreakJoints()
-    end
-  end
-  Misc = Stepped:Connect(function()
-    for Index, Child in pairs(Character:GetDescendants()) do
-      if Child:IsA("BasePart") or Child:IsA("MeshPart") then
-        Child.CanCollide = false -- clientside collision off
-      end
-    end
-    RawHumanoid:Move(Humanoid.MoveDirection, false) -- movement
-    for Index, Animations in pairs(Humanoid:GetPlayingAnimationTracks()) do
-      Animations:Stop() -- stop head moving around.
-    end
-    game.Players.LocalPlayer.ReplicationFocus = workspace
-sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
-sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",9e9)
-    workspace.FallenPartsDestroyHeight = -math.huge
-  end)
-  for Index, Child in pairs(Character:GetDescendants()) do
-    if Reanimate == "Death" then
-       if Child:IsA("Motor6D") then
-          Child:Destroy()
-       end
-    elseif Reanimate ~= "Death" then
-       if Child:IsA("Motor6D") and Child.Name ~= "Neck" then
-          Child:Destroy()
-       end
-    end
-  end
-  if Reanimate == "Bullet" then
-	Humanoid:ChangeState("Physics")
-  end
-  if Humanoid.RigType == Enum.HumanoidRigType.R15 and Reanimate == "Death" then
-  	
-  end
-  Raw.Parent = Character
-  Raw.HumanoidRootPart.CFrame = Torso.CFrame
-  Main = Heartbeat:Connect(function()
-    for Index,Child in pairs(Character:GetChildren()) do
-      if Child:IsA("MeshPart") or Child:IsA("BasePart") and Child.Name ~= "Torso" and Child.Name ~= "UpperTorso" then
-        Child.Velocity = NetlessValue
-      elseif Child:IsA("Accessory") then 
-        Child.Handle.Velocity = NetlessValue
-      end
-    end
-    if Reanimate == "Fling" then
-    Torso.Velocity = Vector3.new(2500,2500,2500)
-    else
-    Torso.Velocity = NetlessValue
-	end	
-    
-    if Humanoid.Jump == true then
-      RawHumanoid.Jump = true
-      RawHumanoid.Sit = false
-    end
-    if Humanoid.RigType == Enum.HumanoidRigType.R6 then
-    Torso.CFrame = RawTorso.CFrame
-	if Reanimate == "Bullet" then
-		if _G.IHaveYourIP == false then
-			Character["Right Arm"].CFrame = Raw["Right Arm"].CFrame
-		end
-		if Character:FindFirstChild("Pal Hair") then
-         	Character:FindFirstChild("Pal Hair").Handle.CFrame = Raw['Right Arm'].CFrame * CFrame.Angles(math.rad(90),0,0)
-		end
-	elseif Reanimate ~= "Bullet" then
-		Character["Right Arm"].CFrame = Raw["Right Arm"].CFrame
-	end
-    Character["Left Arm"].CFrame = Raw["Left Arm"].CFrame
-    Character["Right Leg"].CFrame = Raw["Right Leg"].CFrame
-    Character["Left Leg"].CFrame = Raw["Left Leg"].CFrame
-    if Reanimate == "Death" then
-    	
-      Character["Head"].CFrame = Raw["Head"].CFrame
-    end
-    elseif Humanoid.RigType == Enum.HumanoidRigType.R15 then
-      Character["UpperTorso"].CFrame = Raw["Torso"].CFrame * CFrame.new(0, 0.195, 0)
-      Character.HumanoidRootPart.CFrame = Character["UpperTorso"].CFrame + Vector3.new(0, -0.16, 0)
-      Character["LowerTorso"].CFrame = Raw["Torso"].CFrame * CFrame.new(0, -0.76, 0)
-      if Reanimate == "Bullet" or Reanimate == "Death" then
-         if _G.IHaveYourIP == false then
-            Character["RightUpperArm"].CFrame = Raw["Right Arm"].CFrame * CFrame.new(0, 0.41, 0)
-         end
-		if Character:FindFirstChild("CorpoDefShoulderR") then
-         	Character:FindFirstChild("CorpoDefShoulderR").Handle.CFrame = Raw['Right Arm'].CFrame * CFrame.new(0,0.6,0)
-		end
-      elseif Reanimate == "Raw" or Reanimate == "Fling" then
-         Character["RightUpperArm"].CFrame = Raw["Right Arm"].CFrame * CFrame.new(0, 0.41, 0)
-      end
-      Character["RightLowerArm"].CFrame = Raw["Right Arm"].CFrame * CFrame.new(0, -0.16, 0)
-      Character["RightHand"].CFrame = Raw["Right Arm"].CFrame * CFrame.new(0, -0.8, 0)
-  
-      Character["LeftUpperArm"].CFrame = Raw["Left Arm"].CFrame * CFrame.new(0, 0.41, 0)
-      Character["LeftLowerArm"].CFrame = Raw["Left Arm"].CFrame * CFrame.new(0, -0.16, 0)
-      Character["LeftHand"].CFrame = Raw["Left Arm"].CFrame * CFrame.new(0, -0.8, 0)
-  
-      Character["RightUpperLeg"].CFrame = Raw["Right Leg"].CFrame * CFrame.new(0, 0.6, 0)
-      Character["RightLowerLeg"].CFrame = Raw["Right Leg"].CFrame * CFrame.new(0, -0.15, 0)
-      Character["RightFoot"].CFrame = Raw["Right Leg"].CFrame * CFrame.new(0, -0.85, 0)
-  
-      Character["LeftUpperLeg"].CFrame = Raw["Left Leg"].CFrame * CFrame.new(0, 0.6, 0)
-      Character["LeftLowerLeg"].CFrame = Raw["Left Leg"].CFrame * CFrame.new(0, -0.15, 0)
-      Character["LeftFoot"].CFrame = Raw["Left Leg"].CFrame * CFrame.new(0, -0.85, 0)
-      if Reanimate == "Death" then
-        Character["Head"].CFrame = Raw["Head"].CFrame
-      end
-    end
-    for Index, Child in pairs(Character:GetChildren()) do
-    	if Reanimate == "Bullet" and Humanoid.RigType == Enum.HumanoidRigType.R6 then
-			if Child:IsA("Accessory") and Child.Name ~= "Pal Hair" then
-			   Child.Handle.CFrame = Raw[Child.Name].Handle.CFrame
-			end
-		elseif Reanimate == "Bullet" and Humanoid.RigType == Enum.HumanoidRigType.R15 then
-			if Child:IsA("Accessory") and Child.Name ~= "CorpoDefShoulderR" then
-			   Child.Handle.CFrame = Raw[Child.Name].Handle.CFrame
-			end
-		elseif Reanimate == "Death" and Humanoid.RigType == Enum.HumanoidRigType.R15 then
-			if Child:IsA("Accessory") and Child.Name ~= "CorpoDefShoulderR" then
-			   Child.Handle.CFrame = Raw[Child.Name].Handle.CFrame
-			end
-		elseif Reanimate == "Death" then
-			if Child:IsA("Accessory") then
-			   Child.Handle.CFrame = Raw[Child.Name].Handle.CFrame
-			end
-		elseif Reanimate == "Raw" or Reanimate == "Fling" then
-			if Child:IsA("Accessory") then
-			   Child.Handle.CFrame = Raw[Child.Name].Handle.CFrame
-			end
-		end
-     end
-  end)
-  
-  if Humanoid.RigType == Enum.HumanoidRigType.R6 and Reanimate ~= "Death" then
-  Character.HumanoidRootPart:Destroy()
-  elseif Humanoid.RigType == Enum.HumanoidRigType.R6 and Reanimate == "Death" then
-  pcall(function() Character.HumanoidRootPart.RootJoint:Destroy() end)
-  	Character.HumanoidRootPart.Name = "Bullet"
-  	local AP = Instance.new("AlignPosition", Character.Bullet)
-  	local AO = Instance.new("AlignOrientation", Character.Bullet)
-  	local A1 = Instance.new("Attachment", Character.Bullet)
-  	local A2 = Instance.new("Attachment", Raw.HumanoidRootPart)
-  	AP.RigidityEnabled = true
-  	AO.RigidityEnabled = true
-  	AP.Attachment0 = A1;AP.Attachment1 = A2
-  	AO.Attachment0 = A1;AO.Attachment1 = A2
-  end
-  Humanoid.Died:Connect(function()
-    Misc:Disconnect()
-    Main:Disconnect()
-    Raw:Destroy()
-  end)
-  if Reanimate == "Death" then
-		local Bind = Instance.new("BindableEvent", Character)
-		Bind.Event:Connect(function()
-		game.Players.LocalPlayer.Character = Raw
-		game.Players.LocalPlayer.Character:Destroy()
-		game.Players.LocalPlayer.Character = workspace[game.Players.LocalPlayer.Name]
-		Main:Disconnect()
-		Misc:Disconnect()
-		Bind:Destroy()
-		wait()
-		game:GetService("StarterGui"):SetCore("ResetButtonCallback", true)
-	end)
-      game:GetService("StarterGui"):SetCore("ResetButtonCallback", Bind)
-   end
-   if IsAnimating == true then
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zaphick3L/MiscStuff/main/Anims.lua'))()
-   end
-   if FlingForBullet == true and Reanimate == "Death" or Reanimate == "Bullet" then
-    local bulchar = workspace[game.Players.LocalPlayer.Name]
-    local bullet = bulchar:FindFirstChild("RightUpperArm") or bulchar:FindFirstChild("Bullet") or bulchar:FindFirstChild("Right Arm")
-    bullet:ClearAllChildren()
-    pcall(function()
-      _G.IHaveYourIP = true
-    end)
-    local bp = Instance.new("BodyPosition", bullet)
-    bp.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
-    bp.P = 50000
-    bp.D = 125
-    
-    local flingbuff = Instance.new("BodyAngularVelocity", bullet)
-    flingbuff.MaxTorque = Vector3.new(9e99,9e99,9e99)
-    flingbuff.P = 9e9
-    flingbuff.AngularVelocity = Vector3.new(3500,3500,3500)
-    local highlight = Instance.new("SelectionBox",bullet)
-    highlight.Adornee = bullet
-  
-    local mouse = game.Players.LocalPlayer:GetMouse()
-    local mousehold = false
-    mouse.Button1Down:Connect(function()
-      mousehold = true
-    end)
-        
-    mouse.Button1Up:Connect(function()
-        mousehold = false
-    end)
-    
-    local bulletloop
-    local function fling()
-      pcall(function()
-      local t = 5
-      local hue = tick() % t / t -- took rainbow thing from project cat v1
-      highlight.Color3 = Color3.fromHSV(hue, 1, 1)
-      
-      bullet.RotVelocity = Vector3.new(15000,15000,15000)
-      if mousehold then
-        if game.Players:GetPlayerFromCharacter(mouse.Target.Parent) then
-          bp.Position = mouse.Target.Parent:FindFirstChild("HumanoidRootPart").Position + Vector3.new(math.random(-1,1), math.random(-1,1), math.random(-1,1)) or  mouse.Target.Parent:FindFirstChild("Head").Position + Vector3.new(math.random(-1,1), math.random(-1,1), math.random(-1,1))
-        elseif game.Players:GetPlayerFromCharacter(mouse.Target.Parent.Parent) then
-          bp.Position = mouse.Target.Parent.Parent:FindFirstChild("HumanoidRootPart").Position + Vector3.new(math.random(-1,1), math.random(-1,1), math.random(-1,1)) or mouse.Target.Parent.Parent:FindFirstChild("Head").Position + Vector3.new(math.random(-1,1), math.random(-1,1), math.random(-1,1))
+ct={}
+te=table.insert
+local srv= game:GetService("RunService")
+plr = game.Players.LocalPlayer
+char=game.Players.LocalPlayer.Character
+HumanDied=false
+-- Creating Early Variables.
+local Player = game.Players.LocalPlayer
+local Character = Player.Character
+local PlayerName = Player.Name
+local Physics = settings().Physics
+local Head = Character:FindFirstChild("Head")
+local Torso = Character:FindFirstChild("Torso")
+local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+local Humanoid = Character:FindFirstChild("Humanoid")
+local LeftArm = Character:FindFirstChild("Left Arm")
+local LeftLeg = Character:FindFirstChild("Left Leg")
+local RightArm = Character:FindFirstChild("Right Arm")
+local RightLeg = Character:FindFirstChild("Right Leg")
+local Reanimated = true
+
+function notify(t,tex,dur)
+game.StarterGui:SetCore("SendNotification", {
+    Title = t; 
+    Text = tex; 
+    Duration = dur or 5;
+})
+end
+
+-- R15 Check
+if Humanoid.RigType == Enum.HumanoidRigType.R15 then
+notify('Gelatek Reanimation','Reanimation supports only R6.',10)
+end
+if game.Players.LocalPlayer.Character:FindFirstChild("GelatekReanimation") or workspace:FindFirstChild("GelatekReanimation") then
+notify('Gelatek Reanimation','You are already reanimated! Please reset to unreanimate."',18)   
+else
+
+Character.Archivable = true
+-- Checks if player died so it doesnt run again.
+
+
+-- Start reanimation
+te(ct,game:WaitForChild("Run Service").Heartbeat:Connect(function()
+
+        if Character.GelatekReanimation then
+            Character.Torso.CFrame=Character.GelatekReanimation.Torso.CFrame
         end
-      else
-        bp.Position = game.Players.LocalPlayer.Character.Raw.Torso.CFrame.p + Vector3.new(0,-5,0)
-      end
-      end)
-    end
-  
-    bulletloop = game:GetService("RunService").Heartbeat:Connect(fling)
-    bulchar.Humanoid.Died:Connect(function()
-      bulletloop:Disconnect()
-      _G.IHaveYourIP = false
-    end)
-   end
-   if LoadLibNow == true then
-   	loadstring(game:HttpGet("https://raw.githubusercontent.com/Zaphick3L/MiscStuff/main/Loadlibrary.lua"))()
+        sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
+        sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",999999999)
+        game.Players.LocalPlayer.ReplicationFocus = workspace
+        workspace.FallenPartsDestroyHeight = -math.huge
+	    RightArm.Velocity = Vector3.new(-28.05,1,1)
+        RightLeg.Velocity = Vector3.new(-28.05,1,1)
+        LeftArm.Velocity = Vector3.new(-28.05,1,1)
+        LeftLeg.Velocity = Vector3.new(-28.05,1,1)
+        Torso.Velocity = Vector3.new(12000,12000,12000)
+        HumanoidRootPart.Velocity = Vector3.new(-28.05,1,1)
+        for _, Accessories in pairs(Character:GetDescendants()) do
+            if Accessories:IsA("Accessory") then
+                Accessories.Handle.Velocity = Vector3.new(-28.05,1,1)
+            end
 	end
-  game:GetService("StarterGui"):SetCore("SendNotification",
-  {
-     Title = "Gelatek Reanimation",
-     Text = "Loaded! Created by: Gelatek (DSC ID: 734876821908095016). Enjoy!"
-  })
+	
+
+end))
+
+local CopyCharacter = Character:Clone()
+CopyCharacter.Parent = Character
+CopyCharacter.Name = "GelatekReanimation"
+
+for k,l in pairs(Character.GelatekReanimation:GetDescendants()) do 
+    if l:IsA("Part") or l:IsA("Decal") then
+    l.Transparency=1
+end
+end
+Character.Animate.Disabled = true
+Character.Torso["Left Shoulder"]:Destroy()
+Character.Torso["Right Shoulder"]:Destroy()
+Character.Torso["Left Hip"]:Destroy()
+Character.Torso["Right Hip"]:Destroy()
+HumanoidRootPart.RootJoint:Destroy()
+--  Using Mizt's align
+local CountSCIFIMOVIELOL = 1
+function AlignCharacter(Part0,Part1,Position,Angle)
+    local AlignPos = Instance.new('AlignPosition', Part1); AlignPos.Name = "AliP_"..CountSCIFIMOVIELOL
+    AlignPos.ApplyAtCenterOfMass = true;
+    AlignPos.MaxForce = 5772000--67752;
+    AlignPos.MaxVelocity = math.huge/9e110;
+    AlignPos.ReactionForceEnabled = false;
+    AlignPos.Responsiveness = 200;
+    AlignPos.RigidityEnabled = false;
+    local AlignOri = Instance.new('AlignOrientation', Part1); AlignOri.Name = "AliO_"..CountSCIFIMOVIELOL
+    AlignOri.MaxAngularVelocity = math.huge/9e110;
+    AlignOri.MaxTorque = 5772000
+    AlignOri.PrimaryAxisOnly = false;
+    AlignOri.ReactionTorqueEnabled = false;
+    AlignOri.Responsiveness = 200;
+    AlignOri.RigidityEnabled = false;
+    local AttachmentA=Instance.new('Attachment',Part1); AttachmentA.Name = "AthP_"..CountSCIFIMOVIELOL
+    local AttachmentB=Instance.new('Attachment',Part0); AttachmentB.Name = "AthP_"..CountSCIFIMOVIELOL
+    local AttachmentC=Instance.new('Attachment',Part1); AttachmentC.Name = "AthO_"..CountSCIFIMOVIELOL
+    local AttachmentD=Instance.new('Attachment',Part0); AttachmentD.Name = "AthO_"..CountSCIFIMOVIELOL
+    AttachmentC.Orientation = Angle
+    AttachmentA.Position = Position
+    AlignPos.Attachment1 = AttachmentA;
+    AlignPos.Attachment0 = AttachmentB;
+    AlignOri.Attachment1 = AttachmentC;
+    AlignOri.Attachment0 = AttachmentD;
+    CountSCIFIMOVIELOL = CountSCIFIMOVIELOL + 1
+end
+
+AlignCharacter(Torso,CopyCharacter["Torso"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+AlignCharacter(HumanoidRootPart,CopyCharacter["HumanoidRootPart"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+AlignCharacter(LeftArm,CopyCharacter["Left Arm"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+AlignCharacter(RightArm,CopyCharacter["Right Arm"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+AlignCharacter(LeftLeg,CopyCharacter["Left Leg"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+AlignCharacter(RightLeg,CopyCharacter["Right Leg"],Vector3.new(0,0,0),Vector3.new(0,0,0))
+CopyCharacter:FindFirstChild("HumanoidRootPart").Anchored = false
+
+spawn(function() 
+    while true do wait()
+        if Character:FindFirstChild("Humanoid").Health == 0 then 
+                Character:BreakJoints()
+                CopyCharacter:BreakJoints()
+        end
+    end 
+end)
+
+function nocol(t)
+    for k,l in pairs(Character:GetDescendants()) do 
+        if l:IsA("BasePart")then 
+            HILOL=Instance.new("NoCollisionConstraint",l)
+            HILOL.Part0=l
+            HILOL.Part1=t 
+        end 
+    end 
+end
+
+for k,l in pairs(CopyCharacter:GetDescendants()) do
+     if l:IsA("BasePart")then 
+        nocol(l)
+    end 
+end
+
+
+for i,part in next, char:GetDescendants() do
+if part:IsA('BasePart') then
+te(ct,srv.RenderStepped:Connect(function()
+part.CanCollide=false
+end))
+end
+end
+
+for i,part in next, char:GetDescendants() do
+if part:IsA('BasePart') then
+te(ct,srv.Stepped:Connect(function()
+part.CanCollide=false
+end))
+end
+end
+
+for i,part in next, CopyCharacter:GetDescendants() do
+if part:IsA('BasePart') then
+te(ct,srv.RenderStepped:Connect(function()
+part.CanCollide=false
+end))
+end
+end
+
+
+
+
+Torso.Anchored = true
+LeftArm.Anchored = true
+RightArm.Anchored = true
+LeftLeg.Anchored = true
+RightLeg.Anchored = true
+Head.Anchored = true
+
+for k=0,30 do wait()
+    CopyCharacter.HumanoidRootPart.RotVelocity = Vector3.new(0,0,0)
+    CopyCharacter.HumanoidRootPart.Velocity = Vector3.new(0,0,0)
+end
+
+
+
+game:GetService("UserInputService").JumpRequest:connect(function(t)
+    if CopyCharacter.Humanoid.FloorMaterial~=Enum.Material.Air then 
+        CopyCharacter.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        game.Players.LocalPlayer.Character.GelatekReanimation:FindFirstChildOfClass('Humanoid').Sit=false 
+    end 
+end)
+
+game.RunService.RenderStepped:Connect(function()
+    CopyCharacter.Humanoid:Move(Character.Humanoid.MoveDirection,false)
+    local animtracks = Humanoid:GetPlayingAnimationTracks()
+        for n,l in pairs(animtracks) do 
+            l:Stop()
+        end 
+end)
+workspace.CurrentCamera.CameraSubject = CopyCharacter.Humanoid
+
+
+Torso.Anchored = false
+LeftArm.Anchored = false
+RightArm.Anchored = false
+LeftLeg.Anchored = false
+RightLeg.Anchored = false
+Head.Anchored = false
+
+for n,l in pairs(Character:children()) do 
+if l.className=="Part" then 
+te(ct,srv.Stepped:Connect(function()
+l.CanCollide=false 
+end))
+elseif l.ClassName=="Model" then 
+te(ct,srv.Stepped:Connect(function()
+l.Head.CanCollide=false 
+end))
+end
+end
+
 end
