@@ -48,7 +48,6 @@ te(ct,game:WaitForChild("Run Service").Heartbeat:Connect(function()
         sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
         sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",999999999)
         game.Players.LocalPlayer.ReplicationFocus = workspace
-        workspace.FallenPartsDestroyHeight = -math.huge
 	    RightArm.Velocity = Vector3.new(-28.05,1,1)
         RightLeg.Velocity = Vector3.new(-28.05,1,1)
         LeftArm.Velocity = Vector3.new(-28.05,1,1)
@@ -73,6 +72,7 @@ for k,l in pairs(Character.GelatekReanimation:GetDescendants()) do
     l.Transparency=1
 end
 end
+workspace.CurrentCamera.CameraSubject = CopyCharacter.Humanoid
 Character.Animate.Disabled = true
 Character.Torso["Left Shoulder"]:Destroy()
 Character.Torso["Right Shoulder"]:Destroy()
@@ -167,7 +167,17 @@ end))
 end
 end
 
-
+for n,l in pairs(Character:children()) do 
+if l.className=="Part" then 
+te(ct,srv.Stepped:Connect(function()
+l.CanCollide=false 
+end))
+elseif l.ClassName=="Model" then 
+te(ct,srv.Stepped:Connect(function()
+l.Head.CanCollide=false 
+end))
+end
+end
 
 
 Torso.Anchored = true
@@ -198,8 +208,6 @@ game.RunService.RenderStepped:Connect(function()
             l:Stop()
         end 
 end)
-workspace.CurrentCamera.CameraSubject = CopyCharacter.Humanoid
-
 
 Torso.Anchored = false
 LeftArm.Anchored = false
@@ -208,16 +216,6 @@ LeftLeg.Anchored = false
 RightLeg.Anchored = false
 Head.Anchored = false
 
-for n,l in pairs(Character:children()) do 
-if l.className=="Part" then 
-te(ct,srv.Stepped:Connect(function()
-l.CanCollide=false 
-end))
-elseif l.ClassName=="Model" then 
-te(ct,srv.Stepped:Connect(function()
-l.Head.CanCollide=false 
-end))
-end
-end
+
 
 end
