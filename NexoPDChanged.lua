@@ -5,12 +5,12 @@ te=table.insert
 _G.Velocity = Vector3.new(35,0,0)
 
 HumanDied=false
-
+if not _G.Velocity then _G.Velocity = Vector3.new(35,0,0) end
 for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants() do
-if v:IsA("BasePart") then 
+if v:IsA("BasePart") or v:IsA("MeshPart") then 
 te(ct,game:GetService("RunService").Heartbeat:connect(function()
 pcall(function()
-v.Velocity = Vector3.new(0,-30,0)
+v.Velocity = _G.Velocity
 sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
 sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",999999999)
 game.Players.LocalPlayer.ReplicationFocus = workspace
