@@ -2,6 +2,7 @@ plr = game.Players.LocalPlayer
 char=game.Players.LocalPlayer.Character
 ct={}
 te=table.insert
+_G.Velocity = Vector3.new(35,0,0)
 
 HumanDied=false
 
