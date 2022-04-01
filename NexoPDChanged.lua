@@ -14,6 +14,7 @@ v.Velocity = _G.Velocity
 sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
 sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",999999999)
 game.Players.LocalPlayer.ReplicationFocus = workspace
+workspace.FallenPartsDestroyHeight = -math.huge
 end)
 end))
 end
