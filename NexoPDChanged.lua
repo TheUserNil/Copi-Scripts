@@ -15,6 +15,8 @@ sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
 sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",999999999)
 game.Players.LocalPlayer.ReplicationFocus = workspace
 workspace.FallenPartsDestroyHeight = -math.huge
+settings().Physics.AllowSleep = false
+settings().Physics.ThrottleAdjustTime = math.huge - math.huge
 end)
 end))
 end
