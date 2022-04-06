@@ -59,10 +59,9 @@ char.Torso.Anchored=false
 notify('Nexo','Reanimated..')
 char.Humanoid.Health=0
 --reanim.Humanoid.AutoRotate=false
+reanim.Animate.Disabled = true
 reanim.Parent = fl
 reanim.HumanoidRootPart.CFrame = char.HumanoidRootPart.CFrame*CFrame.new(0,5,0)
-
-
 
 
 
@@ -155,7 +154,11 @@ LVecPart.Position = Root.Position
 LVecPart.CFrame = CFrame.new(LVecPart.Position, Vector3.new(lookVec.X * 10000, lookVec.Y, lookVec.Z * 10000))
 end))
 
-
+wdown=false
+sdown=false
+adown=false
+ddown=false
+spacedown=false
 
 --reanim.HumanoidRootPart.RootJoint.Part0=nil
 
@@ -237,22 +240,54 @@ te(ct,m.Button1Up:Connect(function()
 click=false
 end))
 
-char.Animate.Disabled = true
+te(ct,m.KeyDown:Connect(function(e)
+if e ==' ' then
+spacedown=true end
+if e =='w' then
+wdown=true end
+if e =='s' then
+sdown=true end
+if e =='a' then
+adown=true end
+if e =='d' then
+ddown=true
+end
+end))
 
-game:GetService("UserInputService").JumpRequest:connect(function(t)
-    if reanim.Humanoid.FloorMaterial~=Enum.Material.Air then 
-        reanim.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-        game.Players.LocalPlayer.Character.CWExtra.NexoPD:FindFirstChildOfClass('Humanoid').Sit=false 
-    end 
-end)
+te(ct,m.KeyUp:Connect(function(e)
+if e ==' ' then
+spacedown=false end
+if e =='w' then
+wdown=false end
+if e =='s' then
+sdown=false end
+if e =='a' then
+adown=false end
+if e =='d' then
+ddown=false
+end
+end))
 
-game.RunService.RenderStepped:Connect(function()
-    reanim.Humanoid:Move(char.Humanoid.MoveDirection,false)
-    local animtracks = char.Humanoid:GetPlayingAnimationTracks()
-        for n,l in pairs(animtracks) do 
-            l:Stop()
-        end 
-end)
+local function MoveClone(X,Y,Z)
+LVecPart.CFrame = LVecPart.CFrame * CFrame.new(-X,Y,-Z)
+reanim.Humanoid.WalkToPoint = LVecPart.Position
+end
+
+te(ct,srv.RenderStepped:Connect(function()
+if wdown==true then
+MoveClone(0,0,1e4) end
+if sdown==true then
+MoveClone(0,0,-1e4) end
+if adown==true then
+MoveClone(1e4,0,0) end
+if ddown==true then
+MoveClone(-1e4,0,0)
+end
+if spacedown==true then
+reanim.Humanoid.Jump=true end
+if wdown ~= true and adown ~= true and sdown ~= true and ddown ~= true then
+reanim.Humanoid.WalkToPoint = reanim.HumanoidRootPart.Position end
+end))
 
 --reanim.HumanoidRootPart.RootJoint.Part1=nil
 
