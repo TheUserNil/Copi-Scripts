@@ -24,7 +24,7 @@ settings().Physics.DisableCSGv2 = true
 settings().Physics.UseCSGv2 = false
 settings().Physics.ThrottleAdjustTime = math.huge
 workspace.InterpolationThrottling = "Disabled"
-workspace.FallenPartsDestroyHeight = 0
+workspace.FallenPartsDestroyHeight = -math.huge
 
 end)
 end))
