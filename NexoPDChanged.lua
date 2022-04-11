@@ -182,6 +182,7 @@ bp.MaxForce=Vector3.new(99999,99999,99999)
 local click
 
 te(ct,srv.Heartbeat:Connect(function()
+m.TargetFilter=char
 if click == true then
 bp.Position=m.Hit.p
 char.HumanoidRootPart.Position=m.Hit.p
