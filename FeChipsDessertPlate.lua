@@ -12,7 +12,7 @@ for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants
 if v:IsA("BasePart") then 
 te(ct,game:GetService("RunService").Heartbeat:connect(function()
 pcall(function()
-v.Velocity = Vector3.new(35,0,0)
+v.Velocity = Vector3.new(19,0,19)
 game.Players.LocalPlayer.ReplicationFocus = workspace
 workspace.FallenPartsDestroyHeight = -math.huge
 settings().Physics.AllowSleep = false
@@ -517,7 +517,8 @@ end
 local function Gum()
 	attack = true
 	Speed = 0
-	local Senses = Cso("605297168", hed, 6, 1)
+	-- 605297168
+	local Senses = Cso("6356170933", hed, 6, 1)
 	swait(2)
 	repeat
 		swait()
@@ -583,7 +584,8 @@ end
 local function WoodyGotWood()
 	attack = true
 	Speed = 0
-	local Woodlenny = Cso("1764642350", hed, 6, 1)
+	--1764642350
+	local Woodlenny = Cso("5587272760", hed, 6, 1)
 	swait(2)
 	repeat
 		swait()
