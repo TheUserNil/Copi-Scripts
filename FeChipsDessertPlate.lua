@@ -13,12 +13,19 @@ if v:IsA("BasePart") then
 te(ct,game:GetService("RunService").Heartbeat:connect(function()
 pcall(function()
 v.Velocity = Vector3.new(19,0,19)
-game.Players.LocalPlayer.ReplicationFocus = workspace
-workspace.FallenPartsDestroyHeight = -math.huge
-settings().Physics.AllowSleep = false
-settings().Physics.ThrottleAdjustTime = math.huge - math.huge
 sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
 sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",9e9)
+game.Players.LocalPlayer.ReplicationFocus = workspace
+settings().Rendering.EagerBulkExecution = true
+settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.Disabled
+settings().Physics.AllowSleep = false
+settings().Physics.ForceCSGv2 = false
+settings().Physics.DisableCSGv2 = true
+settings().Physics.UseCSGv2 = false
+settings().Physics.ThrottleAdjustTime = math.huge
+workspace.InterpolationThrottling = "Disabled"
+workspace.FallenPartsDestroyHeight = 0
+
 end)
 end))
 end
