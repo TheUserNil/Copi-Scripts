@@ -186,9 +186,10 @@ char['Right Leg']:Destroy()
 char['Left Leg']:Destroy()
 char.Torso['Left Shoulder']:Destroy()
 char['Left Arm']:BreakJoints()
-fix(char['Left Arm'])
-Pos(char['Left Arm'],reanim.Torso)
 
+Pos(char['Left Arm'],reanim.Torso)
+fix(char['Left Arm'])
+flinger(char['Left Arm'])
 te(ct,m.Button1Down:Connect(function()
 click=true
 end))
@@ -208,7 +209,7 @@ end
 end))
 
 
-flinger(char['Left Arm'])
+
 
 
 chatted=false
