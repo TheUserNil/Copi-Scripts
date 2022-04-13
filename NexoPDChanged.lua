@@ -10,7 +10,7 @@ for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants
 if v:IsA("BasePart") or v:IsA("MeshPart") then 
 te(ct,game:GetService("RunService").Heartbeat:connect(function()
 pcall(function()
-v.Velocity = _G.Velocity
+v.AssemblyLinearVelocity = _G.Velocity
 sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
 sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",999999999)
 game.Players.LocalPlayer.ReplicationFocus = workspace
@@ -292,7 +292,7 @@ end))
 
 --reanim.HumanoidRootPart.RootJoint.Part1=nil
 
-workspace.CurrentCamera.CameraSubject = reanim.Humanoid
+
 
 reset=Instance.new('BindableEvent')
 te(ct,reset.Event:Connect(function()
@@ -310,3 +310,6 @@ reset:Remove()
 end))
 
 game:GetService("StarterGui"):SetCore("ResetButtonCallback", reset)
+
+plr.Character = reanim
+workspace.CurrentCamera.CameraSubject = reanim.Humanoid
