@@ -160,10 +160,10 @@ fixer.MaxForce=Vector3.new(99999,99999,99999)
 end
 
 function flinger(p)
-f=Instance.new('BodyAngularVelocity',p)
-f.P=9e9*10 --if u want to fling remove -- in line 154
-f.AngularVelocity = Vector3.new(9e9*10,9e9*10,9e9*10)
-f.MaxTorque=Vector3.new(9e9*10,0,0)
+    f = Instance.new("BodyAngularVelocity", p)
+    f.P = 9e9 * 10
+    f.AngularVelocity = Vector3.new(9e9 * 10, 9e9 * 10, 9e9 * 10)
+    f.MaxTorque = Vector3.new(9e9 * 10, 0, 0)
 end
 
 tc=Instance.new('Part')
@@ -188,7 +188,7 @@ char.Torso['Left Shoulder']:Destroy()
 char['Left Arm']:BreakJoints()
 
 Pos(char['Left Arm'],reanim.Torso)
-fix(char['Left Arm'])
+--fix(char['Left Arm'])
 flinger(char['Left Arm'])
 te(ct,m.Button1Down:Connect(function()
 click=true
