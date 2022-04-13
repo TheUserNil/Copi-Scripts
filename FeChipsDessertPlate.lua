@@ -12,7 +12,7 @@ for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants
 if v:IsA("BasePart") then 
 te(ct,game:GetService("RunService").Heartbeat:connect(function()
 pcall(function()
-v.Velocity = Vector3.new(19,0,19)
+v.AssemblyLinearVelocity = Vector3.new(19,0,19)
 game.Players.LocalPlayer.ReplicationFocus = workspace
 workspace.FallenPartsDestroyHeight = -math.huge
 settings().Physics.AllowSleep = false
