@@ -15,10 +15,16 @@ pcall(function()
 v.Velocity = Vector3.new(19,0,19)
 game.Players.LocalPlayer.ReplicationFocus = workspace
 workspace.FallenPartsDestroyHeight = -math.huge
-settings().Physics.AllowSleep = false
-settings().Physics.ThrottleAdjustTime = math.huge - math.huge
 sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
-sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",9e9)
+sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",999999999)
+settings().Rendering.EagerBulkExecution = true
+settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.Disabled
+settings().Physics.AllowSleep = false
+settings().Physics.ForceCSGv2 = false
+settings().Physics.DisableCSGv2 = true
+settings().Physics.UseCSGv2 = false
+settings().Physics.ThrottleAdjustTime = math.huge
+workspace.InterpolationThrottling = "Disabled"
 end)
 end))
 end
