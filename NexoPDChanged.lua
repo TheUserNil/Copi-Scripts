@@ -292,7 +292,7 @@ end))
 
 --reanim.HumanoidRootPart.RootJoint.Part1=nil
 
-
+workspace.CurrentCamera.CameraSubject = reanim.Humanoid
 
 reset=Instance.new('BindableEvent')
 te(ct,reset.Event:Connect(function()
@@ -310,6 +310,3 @@ reset:Remove()
 end))
 
 game:GetService("StarterGui"):SetCore("ResetButtonCallback", reset)
-
-plr.Character = reanim
-workspace.CurrentCamera.CameraSubject = reanim.Humanoid
