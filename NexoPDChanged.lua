@@ -11,12 +11,18 @@ if v:IsA("BasePart") or v:IsA("MeshPart") then
 te(ct,game:GetService("RunService").Heartbeat:connect(function()
 pcall(function()
 v.AssemblyLinearVelocity = _G.Velocity
-sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
-sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",999999999)
 game.Players.LocalPlayer.ReplicationFocus = workspace
 workspace.FallenPartsDestroyHeight = -math.huge
+sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
+sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",999999999)
+settings().Rendering.EagerBulkExecution = true
+settings().Physics.PhysicsEnvironmentalThrottle = Enum.EnviromentalPhysicsThrottle.Disabled
 settings().Physics.AllowSleep = false
-settings().Physics.ThrottleAdjustTime = math.huge - math.huge
+settings().Physics.ForceCSGv2 = false
+settings().Physics.DisableCSGv2 = true
+settings().Physics.UseCSGv2 = false
+settings().Physics.ThrottleAdjustTime = math.huge
+workspace.InterpolationThrottling = "Disabled"
 end)
 end))
 end
