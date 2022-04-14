@@ -190,7 +190,7 @@ function library:Window(name,game)
 	NameHub.Size = UDim2.new(0, 160, 0, 30)
 	NameHub.Font = Enum.Font.SourceSansSemibold
 	NameHub.RichText =  true
-	NameHub.Text = "<font color=\"rgb(".. math.floor(ColorII.R * 255) .. "," .. math.floor(ColorII.G * 255) .. ",".. math.floor(ColorII.B * 255) ..")\"> " .. name .. " </font>| " .. game
+	NameHub.Text = " .. name .. .. game "
 	NameHub.TextColor3 = Color3.fromRGB(255, 255, 255)
 	NameHub.TextSize = 25.000
 	NameHub.TextXAlignment = Enum.TextXAlignment.Left
