@@ -71,34 +71,48 @@ reanim.HumanoidRootPart.CFrame = char.HumanoidRootPart.CFrame*CFrame.new(0,5,0)
 
 
 
---  Using Mizt's align
-local CountSCIFIMOVIELOL = 1
-function AlignCharacter(Part0,Part1,Position,Angle)
-    local AlignPos = Instance.new('AlignPosition', Part1); AlignPos.Name = "AliP_"..CountSCIFIMOVIELOL
-    AlignPos.ApplyAtCenterOfMass = true;
-    AlignPos.MaxForce = 5772000--67752;
-    AlignPos.MaxVelocity = math.huge/9e110;
-    AlignPos.ReactionForceEnabled = false;
-    AlignPos.Responsiveness = 200;
-    AlignPos.RigidityEnabled = false;
-    local AlignOri = Instance.new('AlignOrientation', Part1); AlignOri.Name = "AliO_"..CountSCIFIMOVIELOL
-    AlignOri.MaxAngularVelocity = math.huge/9e110;
-    AlignOri.MaxTorque = 5772000
-    AlignOri.PrimaryAxisOnly = false;
-    AlignOri.ReactionTorqueEnabled = false;
-    AlignOri.Responsiveness = 200;
-    AlignOri.RigidityEnabled = false;
-    local AttachmentA=Instance.new('Attachment',Part1); AttachmentA.Name = "AthP_"..CountSCIFIMOVIELOL
-    local AttachmentB=Instance.new('Attachment',Part0); AttachmentB.Name = "AthP_"..CountSCIFIMOVIELOL
-    local AttachmentC=Instance.new('Attachment',Part1); AttachmentC.Name = "AthO_"..CountSCIFIMOVIELOL
-    local AttachmentD=Instance.new('Attachment',Part0); AttachmentD.Name = "AthO_"..CountSCIFIMOVIELOL
-    AttachmentC.Orientation = Angle
-    AttachmentA.Position = Position
-    AlignPos.Attachment1 = AttachmentA;
-    AlignPos.Attachment0 = AttachmentB;
-    AlignOri.Attachment1 = AttachmentC;
-    AlignOri.Attachment0 = AttachmentD;
-    CountSCIFIMOVIELOL = CountSCIFIMOVIELOL + 1
+function create(part, parent, p, r)
+Instance.new("Attachment",part)
+Instance.new("AlignPosition",part)
+Instance.new("AlignOrientation",part)
+Instance.new("Attachment",parent)
+part.Attachment.Name = part.Name
+parent.Attachment.Name = part.Name
+part.AlignPosition.Attachment0 = part[part.Name]
+part.AlignOrientation.Attachment0 = part[part.Name]
+part.AlignPosition.Attachment1 = parent[part.Name]
+part.AlignOrientation.Attachment1 = parent[part.Name]
+parent[part.Name].Position = p or Vector3.new()
+part[part.Name].Orientation = r or Vector3.new()
+part.AlignPosition.MaxForce = 999999999
+part.AlignPosition.MaxVelocity = math.huge
+part.AlignPosition.ReactionForceEnabled = false
+part.AlignPosition.Responsiveness = math.huge
+part.AlignOrientation.Responsiveness = math.huge
+part.AlignPosition.RigidityEnabled = false
+part.AlignOrientation.MaxTorque = 999999999
+part.Massless=true
+end
+
+function Pos(part, parent, p)
+Instance.new("Attachment",part)
+Instance.new("AlignPosition",part)
+Instance.new("Attachment",parent)
+part.Attachment.Name = part.Name
+parent.Attachment.Name = part.Name
+part.AlignPosition.Attachment0 = part[part.Name]
+--part.AlignOrientation.Attachment0 = part[part.Name]
+part.AlignPosition.Attachment1 = parent[part.Name]
+--part.AlignOrientation.Attachment1 = parent[part.Name]
+parent[part.Name].Position = p or Vector3.new()
+part.AlignPosition.MaxForce = 999999999
+part.AlignPosition.MaxVelocity = math.huge
+part.AlignPosition.ReactionForceEnabled = false
+part.AlignPosition.Responsiveness = math.huge
+--part.AlignOrientation.Responsiveness = math.huge
+--part.AlignPosition.RigidityEnabled = false
+--part.AlignOrientation.MaxTorque = 999999999
+part.Massless=true
 end
 
 
@@ -136,18 +150,18 @@ end
 
 for i,v in next, char:GetDescendants() do
 if v:IsA('Accessory') then
-AlignCharacter(v.Handle,reanim[v.Name].Handle,Vector3.new(0,0,0),Vector3.new(0,0,0))
+create(v.Handle,reanim[v.Name].Handle)
 end
 end
 
 --Pos(fhrp,reanim['Torso'])
-AlignCharacter(char['Head'],reanim['Head'],Vector3.new(0,0,0),Vector3.new(0,0,0))
-AlignCharacter(char['Torso'],reanim['Torso'],Vector3.new(0,0,0),Vector3.new(0,0,0))
-AlignCharacter(char['HumanoidRootPart'],reanim['Torso'],Vector3.new(0,0,0),Vector3.new(0,0,0))
-AlignCharacter(char['Right Arm'],reanim['Right Arm'],Vector3.new(0,0,0),Vector3.new(0,0,0))
-AlignCharacter(char['Left Arm'],reanim['Left Arm'],Vector3.new(0,0,0),Vector3.new(0,0,0))
-AlignCharacter(char['Right Leg'],reanim['Right Leg'],Vector3.new(0,0,0),Vector3.new(0,0,0))
-AlignCharacter(char['Left Leg'],reanim['Left Leg'],Vector3.new(0,0,0),Vector3.new(0,0,0))
+create(char['Head'],reanim['Head'])
+create(char['Torso'],reanim['Torso'])
+Pos(char['HumanoidRootPart'],reanim['Torso'],Vector3.new(0,0,0))
+create(char['Right Arm'],reanim['Right Arm'])
+create(char['Left Arm'],reanim['Left Arm'])
+create(char['Right Leg'],reanim['Right Leg'])
+create(char['Left Leg'],reanim['Left Leg'])
 
 m = plr:GetMouse()
 
