@@ -4,7 +4,7 @@ local srv = game:GetService("RunService")
 local ct = {}
 local te = table.insert
 local m = plr:GetMouse()
-if char:FindFirstChild("Pal Hair") then
+if char:FindFirstChild("Robloxclassicred") then
 else
     return
 end
@@ -13,8 +13,8 @@ _G.Jitter=Vector3.new(-20,0,-20)
 
 for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants() do
 if v:IsA("BasePart") and v.Name ~= 'HumanoidRootPart' then 
-        bf = Instance.new("BodyForce", v)
-        bf.Force = Vector3.new(50, 50, 50)
+bf = Instance.new("BodyForce", v)
+bf.Force = Vector3.new(50, 50, 50)
 te(ct,game:GetService("RunService").Heartbeat:connect(function()
 pcall(function()
 v.Velocity = _G.Jitter
@@ -127,7 +127,7 @@ for i, v in next, char:GetDescendants() do
     end
 end
 for i, v in next, char:GetDescendants() do
-    if v:IsA("Accessory") and v.Name ~= "Pal Hair" then
+    if v:IsA("Accessory") and v.Name ~= "Robloxclassicred" then
         v.Handle:BreakJoints()
         create(v.Handle, reanim[v.Name].Handle)
     end
@@ -150,7 +150,7 @@ end
 
 function flinger(p)
 f=Instance.new('BodyAngularVelocity',p)
-f.P=9e9*10 --if u want to fling remove -- in line 154
+f.P=9e9*10 
 f.AngularVelocity = Vector3.new(9e9*10,9e9*10,9e9*10)
 f.MaxTorque=Vector3.new(9e9*10,0,0)
 end
@@ -164,9 +164,9 @@ function flinger(p)
 end
 Pos(char["Right Leg"], reanim["Torso"])
 fliiiin = flinger(char["Right Leg"])
-char["Pal Hair"].Handle:BreakJoints()
-char["Pal Hair"].Handle.Mesh:Destroy()
-create(char["Pal Hair"].Handle, reanim["Right Leg"], Vector3.new(), Vector3.new(90, 0, 0))
+char["Robloxclassicred"].Handle:BreakJoints()
+char["Robloxclassicred"].Handle.Mesh:Destroy()
+create(char["Robloxclassicred"].Handle, reanim["Right Leg"], Vector3.new(), Vector3.new(90, 0, 0))
 reanim.Animate.Disabled = true
 reanim.Parent = fl
 sh = false
