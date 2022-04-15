@@ -148,11 +148,12 @@ for i, v in next, char:GetDescendants() do
     end
 end
 
-function flinger(p)
-f=Instance.new('BodyAngularVelocity',p)
-f.P=9e9*10 
-f.AngularVelocity = Vector3.new(9e9*10,9e9*10,9e9*10)
-f.MaxTorque=Vector3.new(9e9*10,0,0)
+function fix(p)
+fixer=Instance.new('BodyPosition',p)
+fixer.Name='BP'
+fixer.P=9e9
+fixer.D=9e9
+fixer.MaxForce=Vector3.new(99999,99999,99999)
 end
 
 function flinger(p)
@@ -162,7 +163,9 @@ function flinger(p)
     f.MaxTorque = Vector3.new(9e9 * 10, 0, 0)
     return f
 end
+char['Right Leg'].Transparency = 1
 Pos(char["Right Leg"], reanim["Torso"])
+fix(char['Right Leg'])
 fliiiin = flinger(char["Right Leg"])
 char["Robloxclassicred"].Handle:BreakJoints()
 char["Robloxclassicred"].Handle.Mesh:Destroy()
@@ -191,6 +194,12 @@ m.TargetFilter = char
                 char["Right Leg"].Position = fp.Position
             end
 end))
+
+local Highlight = Instance.new("SelectionBox")
+Highlight.Adornee = char["Right Leg"]
+Highlight.LineThickness=0.04
+Highlight.Color3 = Color3.fromRGB(30,255,30)
+Highlight.Parent = char["Right Leg"]
 
 plr.Character=reanim
 workspace.Camera.CameraSubject=reanim
