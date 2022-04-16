@@ -13,12 +13,11 @@ _G.Jitter=Vector3.new(-20,0,-20)
 
 for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants() do
 if v:IsA("BasePart") and v.Name ~= 'HumanoidRootPart' then 
-bf = Instance.new("BodyForce", v)
-bf.Force = Vector3.new(50, 50, 50)
+
 te(ct,game:GetService("RunService").Heartbeat:connect(function()
 pcall(function()
 v.Velocity = _G.Jitter
-v.BodyForce.Force = Vector3.new(50, 50, 50)
+
 game.Players.LocalPlayer.ReplicationFocus = workspace
 workspace.FallenPartsDestroyHeight = -math.huge
 sethiddenproperty(game.Players.LocalPlayer,"MaximumSimulationRadius",math.huge)
@@ -143,7 +142,7 @@ for i, v in next, char:GetDescendants() do
     end
 end
 for i, v in next, char:GetDescendants() do
-    if v:IsA("BasePart") and v.Name ~= "Right Leg" and v.Name ~= "Head" and v.Parent == char then
+    if v:IsA("BasePart") and v.Name ~= "Right Arm" and v.Name ~= "Head" and v.Parent == char then
         create(v, reanim[v.Name])
     end
 end
@@ -163,13 +162,13 @@ function flinger(p)
     f.MaxTorque = Vector3.new(9e9 * 10, 0, 0)
     return f
 end
-char['Right Leg'].Transparency = 1
-Pos(char["Right Leg"], reanim["Torso"])
-fix(char['Right Leg'])
-fliiiin = flinger(char["Right Leg"])
+char['Right Arm'].Transparency = 1
+Pos(char["Right Arm"], reanim["Torso"])
+fix(char['Right Arm'])
+fliiiin = flinger(char["Right Arm"])
 char["Robloxclassicred"].Handle:BreakJoints()
 char["Robloxclassicred"].Handle.Mesh:Destroy()
-create(char["Robloxclassicred"].Handle, reanim["Right Leg"], Vector3.new(), Vector3.new(90, 0, 0))
+create(char["Robloxclassicred"].Handle, reanim["Right Arm"], Vector3.new(), Vector3.new(90, 0, 0))
 reanim.Animate.Disabled = true
 reanim.Parent = fl
 sh = false
@@ -188,18 +187,18 @@ te(ct,srv.Heartbeat:Connect(function()
 m.TargetFilter = char
             if sh then
                 fp.CFrame = CFrame.new(m.Hit.p)
-                char["Right Leg"].Position = fp.Position
+                char["Right Arm"].Position = fp.Position
             else
                 fp.CFrame = char.Torso.CFrame * CFrame.new(0, 0, 0)
-                char["Right Leg"].Position = fp.Position
+                char["Right Arm"].Position = fp.Position
             end
 end))
 
 local Highlight = Instance.new("SelectionBox")
-Highlight.Adornee = char["Right Leg"]
-Highlight.LineThickness=0.04
+Highlight.Adornee = char["Right Arm"]
+Highlight.LineThickness=0.03
 Highlight.Color3 = Color3.fromRGB(30,255,30)
-Highlight.Parent = char["Right Leg"]
+Highlight.Parent = char["Right Arm"]
 
 plr.Character=reanim
 workspace.Camera.CameraSubject=reanim
