@@ -196,7 +196,7 @@ end))
 
 local Highlight = Instance.new("SelectionBox")
 Highlight.Adornee = char["Right Arm"]
-Highlight.LineThickness=0.03
+Highlight.LineThickness=0.2
 Highlight.Color3 = Color3.fromRGB(30,255,30)
 Highlight.Parent = char["Right Arm"]
 
