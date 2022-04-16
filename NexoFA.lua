@@ -164,7 +164,7 @@ function flinger(p)
 end
 char['Right Arm'].Transparency = 1
 Pos(char["Right Arm"], reanim["Torso"])
-fix(char['Right Arm'])
+--fix(char['Right Arm'])
 fliiiin = flinger(char["Right Arm"])
 char["Robloxclassicred"].Handle:BreakJoints()
 char["Robloxclassicred"].Handle.Mesh:Destroy()
@@ -196,7 +196,7 @@ end))
 
 local Highlight = Instance.new("SelectionBox")
 Highlight.Adornee = char["Right Arm"]
-Highlight.LineThickness=0.2
+Highlight.LineThickness=0.08
 Highlight.Color3 = Color3.fromRGB(30,255,30)
 Highlight.Parent = char["Right Arm"]
 
