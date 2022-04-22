@@ -1,3 +1,4 @@
+print("Yea")
 plr = game.Players.LocalPlayer
 char=game.Players.LocalPlayer.Character
 ct={}
