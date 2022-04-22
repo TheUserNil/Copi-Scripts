@@ -163,7 +163,7 @@ create(char['Left Arm'],reanim['Left Arm'])
 create(char['Right Leg'],reanim['Right Leg'])
 create(char['Left Leg'],reanim['Left Leg'])
 
-m = plr:GetMouse()
+mwouse = plr:GetMouse()
 
 local LVecPart = Instance.new("Part", fl) LVecPart.CanCollide = false LVecPart.Transparency = 1
 
@@ -190,7 +190,7 @@ end
 
 flinger(char.HumanoidRootPart)
 
-m=plr:GetMouse()
+mwouse=plr:GetMouse()
 
 --char.HumanoidRootPart.Transparency = 0
 
@@ -202,10 +202,10 @@ bp.MaxForce=Vector3.new(99999,99999,99999)
 local click
 
 te(ct,srv.Heartbeat:Connect(function()
-m.TargetFilter=char
+mwouse.TargetFilter=char
 if click == true then
-bp.Position=m.Hit.p
-char.HumanoidRootPart.Position=m.Hit.p
+bp.Position=mwouse.Hit.p
+char.HumanoidRootPart.Position=mwouse.Hit.p
 else
 bp.Position=reanim.Torso.Position
 char.HumanoidRootPart.Position=reanim.Torso.Position
