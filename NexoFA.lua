@@ -156,15 +156,15 @@ fixer.MaxForce=Vector3.new(99999,99999,99999)
 end
 
 function flinger(p)
-    f = Instance.new("BodyAngularVelocity", p)
-    f.P = 9e9 * 10
-    f.AngularVelocity = Vector3.new(9e9 * 10, 9e9 * 10, 9e9 * 10)
-    f.MaxTorque = Vector3.new(9e9 * 10, 0, 0)
-    return f
+f=Instance.new('BodyAngularVelocity',p)
+f.P=9e9*10 --if u want to fling remove -- in line 154
+f.AngularVelocity = Vector3.new(9e9*10,9e9*10,9e9*10)
+f.MaxTorque=Vector3.new(9e9*10,0,0)
 end
+
 char['Right Arm'].Transparency = 1
 Pos(char["Right Arm"], reanim["Torso"])
---fix(char['Right Arm'])
+fix(char['Right Arm'])
 fliiiin = flinger(char["Right Arm"])
 char["Robloxclassicred"].Handle:BreakJoints()
 char["Robloxclassicred"].Handle.Mesh:Destroy()
