@@ -253,15 +253,15 @@ end
 end
 end)
 
-te(ct,m.Button1Down:Connect(function()
+te(ct,mwouse.Button1Down:Connect(function()
 click=true
 end))
 
-te(ct,m.Button1Up:Connect(function()
+te(ct,mwouse.Button1Up:Connect(function()
 click=false
 end))
 
-te(ct,m.KeyDown:Connect(function(e)
+te(ct,mwouse.KeyDown:Connect(function(e)
 if e ==' ' then
 spacedown=true end
 if e =='w' then
@@ -275,7 +275,7 @@ ddown=true
 end
 end))
 
-te(ct,m.KeyUp:Connect(function(e)
+te(ct,mwouse.KeyUp:Connect(function(e)
 if e ==' ' then
 spacedown=false end
 if e =='w' then
